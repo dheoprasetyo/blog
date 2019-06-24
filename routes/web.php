@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('blog.index');
 });
@@ -26,7 +27,15 @@ Route::get('/blog/{posts}',[
 	'uses' => 'BlogController@show',
 	'as' => 'blog.show',
 ]);
+Route::get('/author/{author}',[
+	'uses' => 'BlogController@author',
+	'as' => 'author'
+]);
 Route::get('/category/{category}',[
 	'uses' => 'BlogController@category',
 	'as' => 'category'
 ]);
+
+Auth::routes();
+
+Route::get('/home', 'Backend\HomeController@index')->name('home');

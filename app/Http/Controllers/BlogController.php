@@ -31,6 +31,19 @@ class BlogController extends Controller
 	// method show() in the BlogController using model binding
 	public function show(Post $post){
 
+		$post->increment('view_count',1);
 		return view("blog.show", compact('post'));
+	}
+
+	public function author(User $author){
+		$authorName = $author->name;
+
+		$posts = $author->posts()
+						->with('category')
+						->latestFirst()
+						->published()
+						->paginate($this->limit);
+				
+		return view("blog.index", compact('posts','authorName'));
 	}
 }
