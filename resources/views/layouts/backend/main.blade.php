@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
   <!-- iCheck -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/iCheck/flat/blue.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/plugins/simplemde/simplemde.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/css/custom.css') }}">
   <!-- Morris chart -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/morris/morris.css') }}">
   <!-- jvectormap -->
@@ -26,6 +28,8 @@
   <link rel="stylesheet" href="{{ asset('backend/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+<!-- Preview Image Upload Using Jasny Bootstrap Plugin -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -90,6 +94,10 @@
 <script src="{{ asset('backend/dist/js/pages/dashboard.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('backend/dist/js/demo.js') }}"></script>
+<script src="{{ asset('backend/plugins/simplemde/simplemde.min.js') }}"></script>
+<script src="{{ asset('backend/dist/js/demo.js') }}"></script>
+<!-- Preview Image Upload Using Jasny Bootstrap Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
 
 @yield('script')
 </body>

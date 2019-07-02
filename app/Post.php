@@ -9,18 +9,38 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 class Post extends Model
 {
 	protected $dates = ['published_at'];
-	protected $fillable = ['category_id'];
+	protected $fillable = ['title','slug','excerpt','body','published_at','category_id','image'];
     public function getImageUrlAttribute($value){
 
-    	$imageUrl = "";
-    	if(!is_null($this->image)){
-    		$imageUrl = $this->image;
-    	}else{
-    		$imageUrl = "";
-    	}
+	$imageUrl = "";
 
-    	return $imageUrl;
+	if(!is_null($this->image)){
+		$directory = config('cms.image.directory');
+		$imagePath = public_path(). "/{$directory}/". $this->image;
+
+		if(file_exists($imagePath)) $imageUrl = asset("{$directory}/" .$this->image);
+	}
+
+	return $imageUrl;
+}
+
+public function getImageThumbUrlAttribute($value){
+
+    $imageUrl = "";
+
+    if(!is_null($this->image)){
+    	$directory = config('cms.image.directory');
+        $ext = substr(strrchr($this->image, '.'), 1);
+        $thumbnail = str_replace(".{$ext}", "_thumb.{$ext}", $this->image);
+        $imagePath = public_path() . "/{$directory}/" . $thumbnail;
+        if(file_exists($imagePath)) $imageUrl = asset("{$directory}/" . $thumbnail);
+        $imageUrl = $this->image;
+    }else{
+        $imageUrl = "";
     }
+
+    return $imageUrl;
+}
 
     // Every post has author. 
     public function author(){
@@ -64,20 +84,26 @@ class Post extends Model
 	    return $query->orderBy('view_count', 'desc');
 	}
 
-	public function getImageThumbUrlAttribute($value){
+	
 
-	    $imageUrl = "";
-	    if(!is_null($this->image)){
-	        $ext = substr(strrchr($this->image, '.'), 1);
-	        $thumbnail = str_replace(".{$ext}", "_thumb.{$ext}", $this->image);
-	        $imagePath = public_path() . "/img/" . $thumbnail;
-	        if(file_exists($imagePath)) $imageUrl = asset("img/" . $thumbnail);
-	        $imageUrl = $this->image;
+	public function formattedDate($showTimes = false){
+	    $format = "d/M/Y";
+	    if($showTimes) $format=$format." H:i:s";
+	    return $this->created_at->format($format);
+	}
+
+	public function publicationLabel(){
+	    if(!$this->published_at){
+	        return '<span class="badge badge-warning">Draft</span>';
+	    }elseif($this->published_at && $this->published_at->isFuture()){
+	        return '<span class="badge badge-info">Scheduled</span>';
 	    }else{
-	        $imageUrl = "";
+	        return '<span class="badge badge-success">Published</span>';
 	    }
+	}
 
-	    return $imageUrl;
+	public function setPublishedAtAttribute($value){
+    	$this->attributes['published_at'] = $value ? : NULL;
 	}
 
 }
